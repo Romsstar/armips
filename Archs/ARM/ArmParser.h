@@ -30,6 +30,7 @@ private:
 	bool parseRegisterTable(Parser& parser, ArmRegisterValue& dest, const ArmRegisterDescriptor* table, size_t count);
 	bool parseRegister(Parser& parser, ArmRegisterValue& dest, int max = 15);
 	bool parseCopRegister(Parser& parser, ArmRegisterValue& dest);
+	bool parseVfpSRegister(Parser& parser, ArmRegisterValue& dest);
 	bool parseCopNumber(Parser& parser, ArmRegisterValue& dest);
 	bool parseRegisterList(Parser& parser, int& dest, int validMask);
 	bool parseImmediate(Parser& parser, Expression& dest);

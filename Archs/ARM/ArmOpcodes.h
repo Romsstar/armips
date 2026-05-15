@@ -15,7 +15,7 @@
 #define ARM_TYPE12 9
 #define ARM_TYPE13 10
 #define ARM_TYPE14 11
-#define ARM_TYPE15 12
+#define ARM_TYPE_VFP 12
 #define ARM_TYPE16 13
 #define ARM_TYPE17 14
 #define ARM_MISC 15
@@ -52,6 +52,7 @@
 #define ARM_OPTIMIZE		0x10000000	// optimization
 #define ARM_OPMOVMVN		0x20000000	// ... of mov/mvn
 #define ARM_OPANDBIC		0x40000000	// ... of and/bic
+#define ARM_VFP_SINGLE		0x400000000	// single precision VFP register
 #define ARM_OPCMPCMN		0x80000000	// ... of cmp/cmn
 #define ARM_PCR			   0x100000000	// pc relative
 #define ARM_OPADDSUB	   0x200000000	// ... of add/sub

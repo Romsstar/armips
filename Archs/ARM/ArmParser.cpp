@@ -35,6 +35,17 @@ const ArmRegisterDescriptor armCopNumbers[] = {
 	{ "p12", 12 }, { "p13", 13 }, { "p14", 14 }, { "p15", 15 },
 };
 
+const ArmRegisterDescriptor armVfpSRegisters[] = {
+	{ "s0", 0 },   { "s1", 1 },   { "s2", 2 },   { "s3", 3 },
+	{ "s4", 4 },   { "s5", 5 },   { "s6", 6 },   { "s7", 7 },
+	{ "s8", 8 },   { "s9", 9 },   { "s10", 10 }, { "s11", 11 },
+	{ "s12", 12 }, { "s13", 13 }, { "s14", 14 }, { "s15", 15 },
+	{ "s16", 16 }, { "s17", 17 }, { "s18", 18 }, { "s19", 19 },
+	{ "s20", 20 }, { "s21", 21 }, { "s22", 22 }, { "s23", 23 },
+	{ "s24", 24 }, { "s25", 25 }, { "s26", 26 }, { "s27", 27 },
+	{ "s28", 28 }, { "s29", 29 }, { "s30", 30 }, { "s31", 31 },
+};
+
 std::unique_ptr<CAssemblerCommand> parseDirectiveThumb(Parser& parser, int flags)
 {
 	Arm.SetThumbMode(true);
@@ -140,6 +151,11 @@ bool ArmParser::parseRegister(Parser& parser, ArmRegisterValue& dest, int max)
 bool ArmParser::parseCopRegister(Parser& parser, ArmRegisterValue& dest)
 {
 	return parseRegisterTable(parser,dest,armCopRegisters, std::size(armCopRegisters));
+}
+
+bool ArmParser::parseVfpSRegister(Parser& parser, ArmRegisterValue& dest)
+{
+	return parseRegisterTable(parser, dest, armVfpSRegisters, std::size(armVfpSRegisters));
 }
 
 bool ArmParser::parseCopNumber(Parser& parser, ArmRegisterValue& dest)
@@ -638,6 +654,9 @@ bool ArmParser::parseArmParameters(Parser& parser, const tArmOpcode& opcode, Arm
 			break;
 		case 'v':	// sign for register index parameter
 			parseSign(parser,vars.SignPlus);
+			break;
+		case 'F': // VFP single register s0-s31
+			CHECK(parseVfpSRegister(parser, vars.rd));
 			break;
 		default:
 			CHECK(matchSymbol(parser,*(encoding-1),optional));

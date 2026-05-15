@@ -146,6 +146,12 @@ bool CArmInstruction::Validate(const ValidateState &state)
 		}
 	}
 
+	if (Opcode.type == ARM_TYPE_VFP && (Vars.Immediate & 3))
+	{
+		Logger::queueError(Logger::Error, "VFP offset must be multiple of 4");
+		return false;
+	}
+
 	if (Opcode.flags & ARM_DN)
 	{
 		Vars.rn = Vars.rd;
@@ -604,6 +610,32 @@ void CArmInstruction::Encode() const
 			encoding |= (Vars.rm.num << 0);
 		}
 		break;
+	case ARM_TYPE_VFP:
+	{
+		if (Opcode.flags & ARM_IMMEDIATE)
+		{
+			encoding |= Vars.rn.num << 16;
+
+			if (Opcode.flags & ARM_VFP_SINGLE)
+			{
+				encoding |= ((Vars.rd.num >> 1) & 0xF) << 12;
+				encoding |= (Vars.rd.num & 1) << 22;
+			}
+
+			if (Vars.negative)
+				encoding &= ~(1 << 23);
+
+			encoding |= (Vars.Immediate >> 2) & 0xFF;
+		}
+		else
+		{
+				// vmov sX, rY
+				encoding |= ((Vars.rd.num >> 1) & 0xF) << 16;  // Sn field
+				encoding |= (Vars.rd.num & 1) << 7;            // Sn low bit
+				encoding |= Vars.rm.num << 12;                 // Rt
+			}
+		break;
+	}
 	case ARM_TYPE10:	// ARM.10: Halfword, Doubleword, and Signed Data Transfer
 		if (Vars.writeback) encoding |= (1 << 21);
 		encoding |= (Vars.rn.num << 16);

@@ -207,6 +207,10 @@ const tArmOpcode ArmOpcodes[] = {
 	{ "strCd",	"d0,[n0]",				0x01C000F0,	ARM_TYPE10,	ARM_D|ARM_N|ARM_ARM9 },
 	{ "strCd",	"d0,[n0,/#j\x08]",		0x01C000F0,	ARM_TYPE10,	ARM_D|ARM_N|ARM_IMMEDIATE|ARM_ARM9 },
 
+	{ "vstr.32C",	"F,[n0,/#i]",		0x0D800A00,	ARM_TYPE_VFP,	ARM_N|ARM_D|ARM_IMMEDIATE| ARM_VFP_SINGLE },
+	{ "vldr.32C",	"F,[n0,/#i]",		0x0D900A00,	ARM_TYPE_VFP,	ARM_N|ARM_D|ARM_IMMEDIATE| ARM_VFP_SINGLE | ARM_LOAD },
+	{ "vmovC",	"F,m0",					0x0E000A10,	ARM_TYPE_VFP,	ARM_D|ARM_M|ARM_VFP_SINGLE },
+
 	{ "stmCA",	"/[n1/]W,/{R/}p",		0x08000000,	ARM_TYPE11,	ARM_STORE|ARM_N },
 	{ "ldmCA",	"/[n1/]W,/{R/}p",		0x08100000,	ARM_TYPE11,	ARM_LOAD|ARM_N },
 	{ "pushC",	"/{R/}",				0x092D0000,	ARM_TYPE11,	0 },
